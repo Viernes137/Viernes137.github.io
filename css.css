@@ -32,7 +32,7 @@ body {
 #caja{
     background-color: rgba(255, 255, 255, 0.112);
     backdrop-filter:  blur(2px);
-    padding: 25px;
+    height: 35vh;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.358);
 }

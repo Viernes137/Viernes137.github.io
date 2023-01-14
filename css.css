@@ -19,6 +19,9 @@ body {
 		background-position: 0% 50%;
 	}
 }
+button{
+    width: 70px;;
+}
 .centrado{
     display:flex;
     justify-content: center;
@@ -32,7 +35,13 @@ body {
 #caja{
     background-color: rgba(255, 255, 255, 0.112);
     backdrop-filter:  blur(2px);
-    height: 35vh;
+    max-width: 90vw;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.358);
+}
+#bottones{
+    margin-top: 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }

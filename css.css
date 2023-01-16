@@ -27,6 +27,35 @@ button{
     justify-content: center;
     align-items: center;
 }
+
+#pdc{
+    background-color: aquamarine;
+    width: 100%;
+    height: 100vh;
+    font-family: sans-serif;
+}
+
+#guacamole{
+    position: relative;
+    color: rgba(0, 0, 0, .3);
+    font-size: 5em;
+}
+#guacamole:before {
+    content: attr(data-text);
+    position: absolute;
+    overflow: hidden;
+    max-width: 7em;
+    white-space: nowrap;
+    color: #fff;
+    animation: loading 8s linear;
+}
+
+@keyframes loading {
+    0% {
+        max-width: 0;
+    }
+}
+
 #offcanvasBottom2{
     height: 400px;
     width: 400px;
@@ -34,8 +63,14 @@ button{
     border: none;
 }
 #imagen1{
-    width: 100%;
+    height: 100%;
 }
+#as{
+    background-color: #EBD7E0;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+
 #offcanvasBottom1{
     height: 100vh;
 }

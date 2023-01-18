@@ -9,36 +9,82 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <!--css normal-->
     <link href="css.css" rel="stylesheet">    
+    <link href="quit.css" rel="stylesheet"> 
 
     <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1176/1176380.png" type="image/gif" />
 </head>
 <body>
-    <div class="container">
+    <div id="cortina"></div>
+    <div class="container p-2">
         <div id="preguntas" class="p-3">
-            <div class="centrado p-5 alola">     
-            </div>
-            <div class="centrado p-5 alola">     
+            <div class="centrado p-5 alola">
+                <div>
+                    <h2>¿Como va tu dia?</h2>
+                    <div id="bottones">
+                        <div class="centrado"><button class="btn btn-light"><h2>Sí</h2></button></div>
+                        <div class="centrado"><button class="btn btn-light"><h2>no</h2></button></div>
+                    </div>
+                </div>     
             </div>
             <div class="centrado p-5 alola">
                 <div>
-                    <h2 id="loco">¿Quieres ser mi novia?</h2>
-                    <div class="centrado" id="casa">
-                        <form action="https://formsubmit.co/brunozadquiel129@gmail.com" method="POST" class="centrado">
-                            <input type="hidden" name="Respuesta"  value="sip" required>
-                            <input type="hidden" name="email" value="A@gmail.com" required>
-                            <input type="hidden" name="_next" value="https://viernes137.github.io/si.html">
-                            <button type="submit" class="btn btn-light but">Sí</button>
-                       </form>
-                       <form action="https://formsubmit.co/brunozadquiel129@gmail.com" method="POST" class="centrado">
-                            <input type="hidden" name="Respuesta"  value="Nop" required>
-                            <input type="hidden" name="email" value="A@gmail.com" required>
-                            <input type="hidden" name="_next" value="https://viernes137.github.io/no.html">
-                            <button type="submit" class="btn btn-light but">No</button>
-                        </form>
+                    <h2 align="center">¿Que tal te sientes emocionalmente?</h2>
+                    <div id="bottones">
+                            <div class="centrado"><button class="btn btn-light"><h2>Sí</h2></button></div>
+                            <div class="centrado"><button class="btn btn-light"><h2>no</h2></button></div>
+                    </div>
+                </div>     
+            </div>
+            <div class="centrado p-5 alola">
+                <div>
+                    <h2>¿Como va tu dia?</h2>
+                </div>     
+            </div>
+            <div class="centrado p-5 alola">
+                <div>
+                    <h2>¿Como va tu dia?</h2>
+                </div>     
+            </div>
+            <div class="centrado p-5 alola">   
+                <div>
+                    <h2>¿Ahora si lista?</h2>
+                    <div id="bottones">
+                        <div class="centrado"><button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom1" aria-controls="offcanvasBottom"><h2>Sí</h2></button></div>
+                        <div class="centrado"><button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom2" aria-controls="offcanvasBottom"><h2>No</h2></button></div>
+                    </div>
+                </div>   
+            </div>
+            <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom1" aria-labelledby="offcanvasBottomLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Regresar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body small">
+                    <div class="centrado p-5 alola">
+                        <div>
+                            <h2 id="loco">¿Quieres ser mi novia?</h2>
+                            <div class="centrado" id="casa">
+                                <form action="https://formsubmit.co/brunozadquiel129@gmail.com" method="POST" class="centrado">
+                                    <input type="hidden" name="Respuesta"  value="sip" required>
+                                    <input type="hidden" name="email" value="A@gmail.com" required>
+                                    <input type="hidden" name="_next" value="https://viernes137.github.io/si.html">
+                                    <button type="submit" class="btn btn-light but">Sí</button>
+                               </form>
+                               <form action="https://formsubmit.co/brunozadquiel129@gmail.com" method="POST" class="centrado">
+                                    <input type="hidden" name="Respuesta"  value="Nop" required>
+                                    <input type="hidden" name="email" value="A@gmail.com" required>
+                                    <input type="hidden" name="_next" value="https://viernes137.github.io/no.html">
+                                    <button type="submit" class="btn btn-light but">No</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 </body>
 </html>

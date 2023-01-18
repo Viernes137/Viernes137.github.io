@@ -1,0 +1,37 @@
+#preguntas{
+    background-color: rgba(240, 248, 255, 0.236);
+    overflow: hidden;
+    height:98vh;
+    overflow-y: scroll;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+#preguntas .alola{
+    background-color: #ffcefa;
+}
+
+#cortina{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://w.wallhaven.cc/full/xl/wallhaven-xlemr3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+    position: fixed;
+    animation: kulikitakati 1000ms ease-in-out forwards;
+    animation-delay: 500ms;
+    animation-timing-function: ease;
+}
+
+@keyframes kulikitakati{
+    0% {height: 100vh;}
+    10% {height: 85vh;}
+    25% {height: 75vh;}
+    35% {height: 60vh;}
+    50% {height: 50vh;}
+    60% {height: 35vh;}
+    75% {height: 25vh;}
+    85% {height: 10vh;}
+    100% {height: 0vh;}
+}

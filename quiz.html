@@ -41,18 +41,18 @@
             </div>
             <div class="centrado p-5 alola">
                 <div>
-                    <h2>¿sabias que hay pinguinos azules?</h2>
-                    <div id="bottones">
-                        <div class="centrado"><button class="btn btn-light"><h2>sip</h2></button></div>
-                        <div class="centrado"><button class="btn btn-light"><h2>nop</h2></button></div>
+                    <h2 align="center">¿Que se te antoja de comer??</h2>
+                    <div id="texto">
+                        <input type="text" name="comida:" class="form-control" required>
+                    </div>
                 </div>
-                </div>     
-            </div>
+            </div>     
+            
             <div class="centrado p-5 alola">
                 <div>
                     <h2 align="center">¿Que color sientes que te representa en este momento?</h2>
                     <div id="texto">
-                        <input type="text" name="estado:" class="form-control" required>
+                        <input type="text" name="color:" class="form-control" required>
                     </div>
                 </div> 
             </div>
@@ -65,21 +65,26 @@
                     </div>
                 </div>   
             </div>
+        </div>
             <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom1" aria-labelledby="offcanvasBottomLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasBottomLabel">Regresar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body small">
-                    <div class="centrado p-5 alola">
+                    <div class="centrado p-5 alola" id="pip">
                         <div>
-                            <h2 id="loco">¿Quieres ser mi novia?</h2>
-                            <div class="centrado" id="casa">
+                            <h1 id="loco">¿Quieres ser mi novia?</h1>
+                            
+                            <div id="bottones">
+                                <div class="centrado">
                                     <input type="hidden" name="Respuesta"  value="sip" required>
                                     <input type="hidden" name="email" value="A@gmail.com" required>
                                     <input type="hidden" name="_next" value="https://viernes137.github.io/si.html">
                                     <button type="submit" class="btn btn-light but">Sí</button>
                                </form>
+                            </div>
+                            <div class="centrado">
                                <form action="https://formsubmit.co/brunozadquiel129@gmail.com" method="POST" class="centrado">
                                     <input type="hidden" name="Respuesta"  value="Nop" required>
                                     <input type="hidden" name="email" value="A@gmail.com" required>
@@ -87,11 +92,11 @@
                                     <button type="submit" class="btn btn-light but">No</button>
                                 </form>
                             </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"

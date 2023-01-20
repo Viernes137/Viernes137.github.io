@@ -14,3 +14,46 @@ body{
     width: 70%;
     height: 60vh;
 }
+.rad-lab{
+    width: 70px;
+    height: 70px;
+    /*outline: solid 1px rgb(0, 217, 255);*/
+    position: fixed;
+}
+
+.rad{
+    width: 65px;
+    height: 65px;
+    display:inline-block;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/1828/1828884.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+    animation: kulikitakati 2000ms ease-in-out infinite;
+    transform: translateY(0);
+}
+
+.rad-lab input{
+    display: none;
+}
+
+.rad-lab input:checked + .rad{
+    transition:.7s ease;
+    background-image: url(https://cdn-icons-png.flaticon.com/512/3135/3135296.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+}
+
+
+@keyframes kulikitakati{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(50px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}

@@ -79,6 +79,7 @@ button{
 }
 #loco{
     margin-bottom: 50px;
+    height: 60vh;
 }
 .alola{
     background-color: #e2c2ce;
@@ -94,7 +95,6 @@ button{
     width: 100%;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-row-columns: 50% 50%;
     column-gap: 40px;
 }
 .but{
@@ -120,4 +120,8 @@ button{
     width: 100%;
     display: grid;
     grid-template-columns: 50% 50%;
+}
+#texto{
+    margin-top: 20px;
+    width: 100%;
 }

@@ -41,5 +41,14 @@
     height: 98%;
 }
 #loco{
-    margin-bottom: 50px;
+    font-weight: bolder;
+    font-size: 4em;
+        color: #fff;
+}
+
+#loco span{
+    color:darkmagenta;
+}
+#imagen2{
+    height:50px;
 }

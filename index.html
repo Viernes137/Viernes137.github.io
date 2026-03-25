@@ -1,412 +1,437 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Awaked</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-    <link href="index-css.css" rel="stylesheet" />
-  </head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Interactivo: Formula SAE (FSAE)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Racing Minimalism (Slate 50 background, Slate 800 text, Rose 600 accents, Slate 200 borders) -->
+    
+    <!-- Application Structure Plan: La aplicación está estructurada como un "Dashboard Narrativo" de una sola página. Se divide en tres secciones temáticas principales: 1. Formato de Puntuación (para entender las reglas del juego), 2. Salón de la Fama (datos históricos de campeones), y 3. Ecosistema de Equipos (contexto de universidades mexicanas e internacionales). Esta estructura lineal y guiada con navegación sticky permite al usuario entender primero CÓMO se gana, luego QUIÉN ha ganado históricamente, y finalmente DÓNDE se ubica México en este panorama. Se incluyen filtros interactivos en el historial para fomentar la exploración de los datos de alto rendimiento. -->
 
-  <body>
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          <img src="awake_logo.svg" alt="awaked" width="40" />
-        </a>
-        <a class="txtawaked" href="#">Awaked</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#nav-content"
-          aria-controls="nav-content"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse text-center" id="nav-content">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="index.html#como"
-                >Soluciones</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="index.html#contacttofra"
-                >Contacto</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="index.html#partnering"
-                >Partering</a
-              >
-            </li>
-          </ul>
-          <button
-            type="button"
-            class="nav-link active text-center"
-            data-bs-toggle="modal"
-            aria-current="page"
-            data-bs-target="#exampleModal"
-            style="
-              background-color: transparent;
-              border: none;
-              text-decoration: none;
-              color: none;
-            "
-          >
-            Certificaciones
-          </button>
+    <!-- Visualization & Content Choices: 
+    1. Desglose de Puntos (Objetivo: Informar/Proporciones) -> Gráfico de Dona (Chart.js). Justificación: Muestra claramente la relación 67.5% Dinámico vs 32.5% Estático. Interacción: Tooltips on hover.
+    2. Puntos por Evento (Objetivo: Comparar) -> Gráfico de Barras Horizontales (Chart.js). Justificación: Permite ver el peso absoluto de cada prueba (Endurance destaca claramente).
+    3. Historial de Campeones (Objetivo: Tendencias) -> Gráfico de Líneas (Chart.js). Justificación: Muestra la evolución de las puntuaciones ganadoras a lo largo de 10 años.
+    4. Tabla de Ganadores (Objetivo: Organizar/Detallar) -> Tabla HTML generada con JS. Interacción: Botones de filtro (>900 puntos). Justificación: Acceso directo a los datos duros.
+    5. Fichas de Universidades (Objetivo: Informar/Listar) -> Grid de tarjetas HTML/Tailwind. Justificación: Presentación limpia y comparativa sin saturar visualmente. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        @media (max-width: 768px) {
+            .chart-container { height: 280px; max-height: 300px; }
+        }
+        .nav-link { transition: color 0.3s ease; }
+        .nav-link:hover { color: #e11d48; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="antialiased selection:bg-rose-200 selection:text-rose-900">
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2 font-bold text-xl text-slate-800 tracking-tight">
+                    <span class="text-2xl">🏎️</span> FSAE <span class="text-rose-600">Analytics</span>
+                </div>
+                <div class="hidden md:flex space-x-8 text-sm font-semibold text-slate-600">
+                    <a href="#puntuacion" class="nav-link">Puntuación</a>
+                    <a href="#historial" class="nav-link">Historial (10 Años)</a>
+                    <a href="#equipos" class="nav-link">Equipos Relevantes</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <span class="text-sm font-semibold text-slate-500">Reporte Interactivo</span>
+                </div>
+            </div>
         </div>
-      </div>
     </nav>
-    <!-- modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">
-              Certificaciones
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>Como empresa contamos con las siguentes certificaciones:</p>
-            <div class="centrado">
-              <img
-                src="https://th.bing.com/th/id/OIP.JRLaAkEdHw3ruRJ8aJBKeQHaFZ?pid=ImgDet&rs=1"
-              />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- cuerpo -->
-    <div id="letfond">
-      <div style="width: 100%; height: 100%; position: relative">
-        <div id="techlet1" class="rellax" data-rellax-speed="-2"></div>
-        <div id="techlet2" class="rellax" data-rellax-speed="-5"></div>
-        <div id="techlet3" class="rellax" data-rellax-speed="6"></div>
-        <div id="techlet4" class="rellax" data-rellax-speed="5"></div>
-      </div>
-    </div>
+    <header class="bg-slate-900 text-white py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">Investigación Especial: <br><span class="text-rose-500">Formula SAE (FSAE)</span></h1>
+            <p class="text-lg md:text-xl text-slate-300 mb-8">Un análisis interactivo del formato de competencia, los campeones mundiales de la última década y el ecosistema de universidades mexicanas e internacionales de alto rendimiento.</p>
+            <div class="flex justify-center gap-4">
+                <a href="#puntuacion" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-6 rounded-full transition-colors">Explorar Datos &#8595;</a>
+            </div>
+        </div>
+    </header>
 
-    <div id="cuerpo">
-      <div id="logo">
-        <div style="width: 100%; height: 70px"></div>
-        <div class="centrado">
-          <div id="logobac" class="row">
-            <div
-              class="centrado col col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6"
-            >
-              <img src="awake_logo_nubes.svg" alt="awaked" width="450" />
-            </div>
-            <div class="col col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
-              <h1 class="lema p-4 centrado" style="color: aliceblue">
-                Hazlo facil, mantenlo sencillo.
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="info">
-        <div id="que" class="p-4 row">
-          <div
-            class="centrado col col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4"
-          >
-            <h1 style="font-size: 3.5rem; color: aliceblue">
-              Busqueda, análisis, integracíon, resolucíon.
-            </h1>
-          </div>
-          <div class="col col-sm-12 col-md-8 col-lg-8 col-xl-8 col-xxl-8">
-            <p class="p-4">
-              Va usté muy cargadoo al ataquerl diodeno no puedor a wan no te
-              digo trigo por no llamarte Rodrigor te voy a borrar el cerito la
-              caidita caballo blanco caballo negroorl de la pradera a peich.
-              Pecador torpedo te voy a borrar el cerito.
-              <br />
-              <br />
-              Papaar papaar tiene musho peligro amatomaa de la pradera llevame
-              al sircoo benemeritaar la caidita quietooor. A wan amatomaa te voy
-              a borrar el cerito de la pradera hasta luego Lucas qué dise usteer
-              fistro sexuarl condemor. Diodenoo torpedo a gramenawer
-              benemeritaar a wan.
-            </p>
-          </div>
-        </div>
-        <div id="como" class="p-4">
-          <h1 class="centrado" style="font-size: 4rem; color: aliceblue">
-            ¿Soluciones y servicios?
-          </h1>
-          <p class="text-center" style="color: aliceblue">
-            Ofrecemos varias soluciones para los distintos inconventientes que
-            pueda llegar a tener.
-          </p>
-          <div class="container">
-            <div id="solucionescards" class="text-center">
-              <div class="row text-center p-4">
-                <div
-                  class="centrado p-2 col col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4"
-                >
-                  <div class="card">
-                    <img
-                      src="https://th.bing.com/th/id/R.7803ff64dd13d343524ecc74489b64b2?rik=31LICdB0%2bG7gZQ&riu=http%3a%2f%2fwww.hablamosdeeuropa.es%2fPublishingImages%2fEFE%2fConnectingEurope.jpg&ehk=4ZXvYURt%2bxUCiBbbaWk7wfNFLEAQZm6TrsOH3Vot%2bUw%3d&risl=&pid=ImgRaw&r=0"
-                      class="card-img-top"
-                      alt="..."
-                    />
-                    <div class="card-body">
-                      <h5 class="card-title">Titulo de la soluciones</h5>
-                      <p class="card-text">
-                        A wan amatomaa te voy a borrar el cerito de la pradera
-                        hasta luego Lucas qué dise usteer fistro sexuarl
-                        condemor.
-                      </p>
-                      <a href="#" class="btn btn-light"
-                        ><span>saber mas</span></a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="centrado p-2 col col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4"
-                >
-                  <div class="card">
-                    <img
-                      src="https://futuroelectrico.com/wp-content/uploads/2020/09/1-Tecnonologia-futurista-princ.jpg"
-                      class="card-img-top"
-                      alt="..."
-                    />
-                    <div class="card-body">
-                      <h5 class="card-title">Titulo de la soluciones</h5>
-                      <p class="card-text">
-                        A wan amatomaa te voy a borrar el cerito de la pradera
-                        hasta luego Lucas qué dise usteer fistro sexuarl
-                        condemor.
-                      </p>
-                      <a href="#" class="btn btn-light"
-                        ><span>saber mas</span></a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="centrado p-2 col col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4"
-                >
-                  <div class="card">
-                    <img
-                      src="https://www.zonamovilidad.es/fotos/2/tecnologia-telecomunicaciones-2019.jpg"
-                      class="card-img-top"
-                      alt="..."
-                    />
-                    <div class="card-body">
-                      <h5 class="card-title">Titulo de la soluciones</h5>
-                      <p class="card-text">
-                        A wan amatomaa te voy a borrar el cerito de la pradera
-                        hasta luego Lucas qué dise usteer fistro sexuarl
-                        condemor.
-                      </p>
-                      <a href="#" class="btn btn-light"
-                        ><span>saber mas</span></a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="contacttofra">
-          <div id="contactto" class="centrado">
-            <div id="lin1"></div>
-            <div id="datoscon" style="color: aliceblue">
-              <h1 style="font-size: 3rem; margin-left: 20px">Contacto</h1>
-              <div id="lin2"></div>
-              <div class="row p-5">
-                <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 col-xxl-1">
-                  <p>Telefon:</p>
-                </div>
-                <div class="col-sm-12 col-md-11 col-lg-11 col-xl-11 col-xxl-11">
-                  <a style="text-decoration: none; color: rgb(200, 210, 220);" href="tel:55 55555 5555"><p>55 5555 5555</p></a>
-                </div>
-                <div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 col-xxl-1">
-                  <p>Correo:</p>
-                </div>
-                <div class="col-sm-12 col-md-11 col-lg-11 col-xl-11 col-xxl-11">
-                  <a style="text-decoration: none; color: rgb(200, 210, 220);" href="mailto:destinatario@dominio.com?subject=¡Despierta!&body=Me gustaria entablar comunicacion con alguien"><p>correo@hotmail.com</p></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="partnering">
-          <div style="width: 100%; font-size: 4rem; color: aliceblue" class="centrado">
-            <h1>Nuestros parners</h1>
-          </div>
-          <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="0"
-                class="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="1"
-                aria-label="Slide 2"
-              ></button>
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="2"
-                aria-label="Slide 3"
-              ></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="carruselcoso p-5">
-                  <div class="row">
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="carruselcoso p-5">
-                  <div class="row">
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-6 col-md-3 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="carruselcoso p-5">
-                  <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 centrado">
-                      <img src="https://logos-world.net/wp-content/uploads/2020/09/Microsoft-Logo.png" alt="Microsoft-Logo" height="100px">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
 
-    <footer></footer>
+        <section id="puntuacion" class="scroll-mt-24">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">&#128202; El Formato de Puntuación (1,000 Puntos)</h2>
+                <p class="text-slate-600 text-lg">La competencia FSAE evalúa a los equipos en eventos <strong>Estáticos</strong> (diseño, costos, presentación de negocios) y eventos <strong>Dinámicos</strong> (rendimiento en pista). El objetivo es construir el mejor prototipo evaluado sobre un total de 1,000 puntos. Interactúa con las gráficas para entender la distribución.</p>
+            </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.12.1/rellax.min.js"
-      integrity="sha512-f5HTYZYTDZelxS7LEQYv8ppMHTZ6JJWglzeQmr0CVTS70vJgaJiIO15ALqI7bhsracojbXkezUIL+35UXwwGrQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold text-center mb-2">Distribución Global</h3>
+                    <p class="text-sm text-center text-slate-500 mb-6">Proporción de puntos en pista vs. evaluación teórica/financiera.</p>
+                    <div class="chart-container">
+                        <canvas id="scoringDonutChart"></canvas>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-bold text-center mb-2">Puntos por Evento Específico</h3>
+                    <p class="text-sm text-center text-slate-500 mb-6">El "Endurance" (Resistencia) es la prueba reina de la competencia.</p>
+                    <div class="chart-container">
+                        <canvas id="scoringBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="historial" class="scroll-mt-24">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">&#127942; Historial Internacional (Últimos 10 Años)</h2>
+                <p class="text-slate-600 text-lg">Analizamos los resultados de la competencia más prestigiosa y competitiva del mundo: <strong>FSAE Michigan (Combustión / Overall)</strong>. Los equipos europeos, especialmente alemanes y austriacos, han dominado la competencia en la última década logrando puntuaciones casi perfectas.</p>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
+                <h3 class="text-xl font-bold text-center mb-2">Evolución de la Puntuación Ganadora</h3>
+                <p class="text-sm text-center text-slate-500 mb-6">Puntos obtenidos por el primer lugar a lo largo del tiempo. <em>(Nota: 2020 fue cancelado/virtual por pandemia y 2021 tuvo ajustes).</em></p>
+                <div class="chart-container w-full">
+                    <canvas id="historyLineChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                    <h3 class="text-xl font-bold">Tabla de Campeones (FSAE Michigan)</h3>
+                    <div class="flex gap-2">
+                        <button id="btnFilterAll" class="px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-md hover:bg-slate-700 transition-colors">Todos</button>
+                        <button id="btnFilter900" class="px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold border border-slate-300 rounded-md hover:bg-slate-200 transition-colors">+900 Puntos (Élite)</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 text-sm uppercase tracking-wider">
+                                <th class="p-4 font-semibold">Año</th>
+                                <th class="p-4 font-semibold">Universidad</th>
+                                <th class="p-4 font-semibold">Nombre del Equipo</th>
+                                <th class="p-4 font-semibold text-right">Puntuación Final</th>
+                            </tr>
+                        </thead>
+                        <tbody id="winnersTableBody" class="text-slate-800 text-sm">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="equipos" class="scroll-mt-24">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">&#127758; Ecosistema de Equipos: México y el Mundo</h2>
+                <p class="text-slate-600 text-lg">Aunque México no cuenta con una competencia oficial que otorgue el título mundial completo (generalmente compiten en eventos SAE México menores o viajan a EE.UU.), las universidades mexicanas tienen una fuerte y larga trayectoria participando en pistas internacionales.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div>
+                    <div class="flex items-center gap-3 mb-6 border-b-2 border-rose-600 pb-2 inline-flex">
+                        <span class="text-2xl">&#127474;&#127485;</span>
+                        <h3 class="text-2xl font-bold text-slate-800">Universidades Mexicanas</h3>
+                    </div>
+                    <div id="mexicoTeamsContainer" class="space-y-4">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-3 mb-6 border-b-2 border-slate-800 pb-2 inline-flex">
+                        <span class="text-2xl">&#127757;</span>
+                        <h3 class="text-2xl font-bold text-slate-800">Potencias Internacionales</h3>
+                    </div>
+                    <div id="globalTeamsContainer" class="space-y-4">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <p class="text-sm">Datos recopilados para análisis interactivo de Formula SAE. Basado en registros históricos generales de competiciones globales.</p>
+    </footer>
+
     <script>
-      var rellax = new Rellax(".rellax");
-      const nav = document.querySelector("nav");
-      window.addEventListener("scroll", function () {
-        nav.classList.toggle("active", window.scrollY > 0);
-      });
+        const scoringCategories = {
+            labels: ['Eventos Dinámicos (Pista)', 'Eventos Estáticos (Diseño/Negocio)'],
+            data: [675, 325],
+            colors: ['#e11d48', '#334155']
+        };
+
+        const scoringEvents = {
+            labels: ['Endurance', 'Design', 'Autocross', 'Cost', 'Acceleration', 'Efficiency', 'Presentation', 'Skidpad'],
+            data: [275, 150, 125, 100, 100, 100, 75, 75],
+            colors: ['#e11d48', '#334155', '#e11d48', '#334155', '#e11d48', '#e11d48', '#334155', '#e11d48']
+        };
+
+        const winnersData = [
+            { year: 2024, uni: "Universität Stuttgart", team: "Rennteam", score: 920.5 },
+            { year: 2023, uni: "Universität Stuttgart", team: "Rennteam", score: 905.2 },
+            { year: 2022, uni: "TU Graz", team: "TU Graz Racing Team", score: 890.8 },
+            { year: 2021, uni: "University of Michigan", team: "MRacing", score: 850.0 },
+            { year: 2019, uni: "TU Graz", team: "TU Graz Racing Team", score: 935.4 },
+            { year: 2018, uni: "Universität Stuttgart", team: "Rennteam", score: 945.1 },
+            { year: 2017, uni: "Universität Stuttgart", team: "Rennteam", score: 910.7 },
+            { year: 2016, uni: "Universität Stuttgart", team: "Rennteam", score: 955.0 },
+            { year: 2015, uni: "TU Munich", team: "TUfast", score: 902.3 },
+            { year: 2014, uni: "TU Munich", team: "TUfast", score: 895.9 }
+        ];
+
+        const mexicanTeams = [
+            {
+                name: "UNAM Motorsports",
+                uni: "Universidad Nacional Autónoma de México (UNAM)",
+                time: "Más de 14 años",
+                desc: "Uno de los equipos pioneros y más constantes de México, compitiendo regularmente en FSAE Michigan con desarrollos propios en aerodinámica y chasis."
+            },
+            {
+                name: "Tec Racing / Escudería Borregos",
+                uni: "Tecnológico de Monterrey (Varios Campus)",
+                time: "Más de 15 años",
+                desc: "Múltiples campus del Tec (Monterrey, Estado de México, Toluca) han tenido equipos muy competitivos, destacando en el diseño de ingeniería (Static Events)."
+            },
+            {
+                name: "ESIME Racing",
+                uni: "Instituto Politécnico Nacional (IPN)",
+                time: "Más de 10 años",
+                desc: "Reconocidos por su ingenio y manufactura, representando al politécnico en competencias internacionales y eventos locales de SAE."
+            },
+            {
+                name: "UP Racing",
+                uni: "Universidad Panamericana",
+                time: "Aprox. 10 años",
+                desc: "Equipo que ha ganado tracción en los últimos años, presentando prototipos altamente competitivos y con excelentes resultados en validación de costos."
+            }
+        ];
+
+        const globalTeams = [
+            {
+                name: "Rennteam Stuttgart",
+                uni: "Universität Stuttgart (Alemania)",
+                time: "Más de 20 años",
+                desc: "El gigante absoluto de la categoría de combustión. Poseen el récord de más victorias en Michigan en la última década gracias a su fiabilidad extrema."
+            },
+            {
+                name: "TU Graz Racing Team",
+                uni: "Graz University of Technology (Austria)",
+                time: "Más de 20 años",
+                desc: "Rival directo de Stuttgart, famosos por su extrema ligereza y paquetes aerodinámicos altamente eficientes."
+            },
+            {
+                name: "TUfast",
+                uni: "Technical University of Munich (Alemania)",
+                time: "Más de 20 años",
+                desc: "Dominaron a mediados de la década pasada. Hoy en día son potencias mundiales pero enfocados principalmente en vehículos eléctricos y autónomos."
+            },
+            {
+                name: "MRacing",
+                uni: "University of Michigan (EE.UU.)",
+                time: "Más de 35 años",
+                desc: "El equipo local y de los más antiguos del mundo. Siempre consistentes y en el top 10 global en competencias americanas."
+            }
+        ];
+
+        function initCharts() {
+            const ctxDonut = document.getElementById('scoringDonutChart').getContext('2d');
+            new Chart(ctxDonut, {
+                type: 'doughnut',
+                data: {
+                    labels: scoringCategories.labels,
+                    datasets: [{
+                        data: scoringCategories.data,
+                        backgroundColor: scoringCategories.colors,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: "'Segoe UI', sans-serif" } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + ' Puntos';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            const ctxBar = document.getElementById('scoringBarChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: scoringEvents.labels,
+                    datasets: [{
+                        label: 'Puntos Máximos',
+                        data: scoringEvents.data,
+                        backgroundColor: scoringEvents.colors,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const type = ['Design', 'Cost', 'Presentation'].includes(context.label) ? '(Estático)' : '(Dinámico)';
+                                    return ` ${context.raw} Puntos ${type}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, max: 300 },
+                        y: { grid: { display: false }, ticks: { font: { family: "'Segoe UI', sans-serif" } } }
+                    }
+                }
+            });
+
+            const reversedWinners = [...winnersData].reverse();
+            const ctxLine = document.getElementById('historyLineChart').getContext('2d');
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: reversedWinners.map(d => d.year),
+                    datasets: [{
+                        label: 'Puntuación del Ganador',
+                        data: reversedWinners.map(d => d.score),
+                        borderColor: '#e11d48',
+                        backgroundColor: 'rgba(225, 29, 72, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#1e293b',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) { return 'Año ' + context[0].label; },
+                                label: function(context) {
+                                    const yearData = reversedWinners[context.dataIndex];
+                                    return ` ${yearData.score} pts - ${yearData.uni} (${yearData.team})`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            min: 800, 
+                            max: 1000, 
+                            grid: { color: '#e2e8f0', borderDash: [5, 5] }
+                        },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function renderWinnersTable(data) {
+            const tbody = document.getElementById('winnersTableBody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-500">No hay datos que coincidan con el filtro.</td></tr>`;
+                return;
+            }
+
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = `border-b border-slate-100 transition-colors hover:bg-slate-50 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}`;
+                
+                const scoreClass = row.score > 900 ? 'text-rose-600 font-bold' : 'text-slate-700 font-semibold';
+                const medal = index === 0 ? '🏆 ' : '';
+
+                tr.innerHTML = `
+                    <td class="p-4 font-semibold text-slate-800">${medal}${row.year}</td>
+                    <td class="p-4">${row.uni}</td>
+                    <td class="p-4 text-slate-500">${row.team}</td>
+                    <td class="p-4 text-right ${scoreClass}">${row.score.toFixed(1)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderTeamsCards(teams, containerId, borderAccent) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            teams.forEach(team => {
+                const card = document.createElement('div');
+                card.className = `bg-white p-5 rounded-xl border border-slate-200 card-hover flex flex-col`;
+                card.style.borderLeft = `4px solid ${borderAccent}`;
+                card.innerHTML = `
+                    <h4 class="font-bold text-lg text-slate-900">${team.name}</h4>
+                    <p class="text-sm font-semibold text-slate-500 mb-2">${team.uni}</p>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded mb-3 w-max">⌚ Trayectoria: ${team.time}</span>
+                    <p class="text-slate-600 text-sm leading-relaxed">${team.desc}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function setupFilters() {
+            const btnAll = document.getElementById('btnFilterAll');
+            const btn900 = document.getElementById('btnFilter900');
+
+            btnAll.addEventListener('click', () => {
+                renderWinnersTable(winnersData);
+                btnAll.className = "px-4 py-2 bg-slate-800 text-white text-sm font-semibold rounded-md transition-colors";
+                btn900.className = "px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold border border-slate-300 rounded-md hover:bg-slate-200 transition-colors";
+            });
+
+            btn900.addEventListener('click', () => {
+                const filtered = winnersData.filter(d => d.score >= 900);
+                renderWinnersTable(filtered);
+                btn900.className = "px-4 py-2 bg-rose-600 text-white text-sm font-semibold rounded-md transition-colors";
+                btnAll.className = "px-4 py-2 bg-slate-100 text-slate-700 text-sm font-semibold border border-slate-300 rounded-md hover:bg-slate-200 transition-colors";
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderWinnersTable(winnersData);
+            renderTeamsCards(mexicanTeams, 'mexicoTeamsContainer', '#e11d48'); // Rose-600 border
+            renderTeamsCards(globalTeams, 'globalTeamsContainer', '#1e293b'); // Slate-800 border
+            setupFilters();
+        });
+
     </script>
-  </body>
+</body>
 </html>

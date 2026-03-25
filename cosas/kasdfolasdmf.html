@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organigrama FSAE v2: Estructura de Alto Rendimiento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chosen Palette: Carbon Fiber (Slate 950 bg, Amber 500 highlights, Slate 800 cards) -->
+    
+    <!-- Application Structure Plan: 
+    La SPA presenta la jerarquía final del equipo optimizada según las nuevas directrices de personal.
+    1. Nodo Central: Liderazgo de Proyecto.
+    2. Ramas de Especialización: Logística (Finanzas/Marketing/Estructura) e Ingeniería (Subsistemas Espejo).
+    3. Ingeniería Reforzada: Visualización de los equipos de Transmisión y Electrónica con 4 personas cada uno, y Chasis optimizado a 3.
+    4. Logística Esbelta: "Estructura y Operaciones" ahora con un solo líder estratégico.
+    5. Dashboard de Capacidad: Resumen de la fuerza de trabajo total actualizada. -->
+
+    <!-- Visualization & Content Choices: 
+    1. Diagrama de Árbol (Goal: Organize) -> Flexbox y conectores visuales mediante bordes de Tailwind.
+    2. Tarjetas de Especialidad (Goal: Inform) -> Fondos oscuros con bordes de color para diferenciar Diseño de Manufactura.
+    3. Contador de Personal (Goal: Dynamic Stats) -> Etiquetas de contraste para visibilidad rápida.
+    4. Feedback Táctil (Goal: Interaction) -> Animaciones de elevación al interactuar. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        .connector-v { width: 2px; background-color: #334155; margin: 0 auto; height: 20px; }
+        .connector-h { height: 2px; background-color: #334155; position: absolute; top: 0; left: 20%; right: 20%; }
+        .node-hover:hover { transform: translateY(-3px); border-color: #f59e0b; background-color: #0f172a; transition: all 0.2s ease; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased font-sans min-h-screen">
+
+    <nav class="border-b border-slate-800 bg-slate-950/90 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="h-8 w-8 bg-amber-500 rounded-md flex items-center justify-center text-slate-900 font-black">V2</div>
+                <span class="font-bold tracking-widest text-lg uppercase">FSAE Optimized Structure</span>
+            </div>
+            <div class="text-[10px] font-mono text-amber-500 uppercase tracking-tighter">Personal Actualizado // 2026</div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        
+        <!-- Nodo de Mando -->
+        <div class="flex flex-col items-center mb-12">
+            <div class="node-hover bg-slate-900 border-2 border-slate-700 p-6 rounded-2xl text-center w-72 shadow-2xl">
+                <span class="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em]">Project Management</span>
+                <h2 class="text-xl font-black text-white">CAPITÁN DE EQUIPO</h2>
+                <p class="text-[10px] text-slate-500 mt-1">Integración de Logística e Ingeniería</p>
+            </div>
+            <div class="connector-v"></div>
+            <div class="relative w-full max-w-5xl h-5">
+                <div class="connector-h"></div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- DIVISIÓN LOGÍSTICA -->
+            <div class="flex flex-col items-center">
+                <div class="node-hover bg-slate-900 border-2 border-blue-600/50 p-5 rounded-2xl text-center w-full max-w-xs mb-8">
+                    <h3 class="text-lg font-black text-blue-400 uppercase">Logística y Negocios</h3>
+                    <p class="text-[10px] text-slate-500">Gestión de recursos y marca</p>
+                </div>
+
+                <div class="space-y-4 w-full max-w-sm">
+                    <!-- Estructura y Operaciones -->
+                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 flex justify-between items-center border-l-4 border-l-blue-500">
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-200">Estructura y Operaciones</h4>
+                            <p class="text-[10px] text-slate-500 uppercase">Logística de campo y flujo de trabajo</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-xl font-black text-blue-400">1</span>
+                            <p class="text-[8px] text-slate-500">PERS.</p>
+                        </div>
+                    </div>
+                    <!-- Finanzas -->
+                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-200">Finanzas y Compras</h4>
+                            <p class="text-[10px] text-slate-500 uppercase">Administración de presupuesto</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-xl font-black text-blue-400">1</span>
+                            <p class="text-[8px] text-slate-500">PERS.</p>
+                        </div>
+                    </div>
+                    <!-- Marketing -->
+                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-200">Marketing y Relaciones</h4>
+                            <p class="text-[10px] text-slate-500 uppercase">Patrocinios y redes</p>
+                        </div>
+                        <div class="text-center">
+                            <span class="text-xl font-black text-blue-400">3</span>
+                            <p class="text-[8px] text-slate-500">PERS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIVISIÓN INGENIERÍA (Reforzada) -->
+            <div class="flex flex-col items-center">
+                <div class="node-hover bg-slate-900 border-2 border-emerald-600/50 p-5 rounded-2xl text-center w-full max-w-xs mb-8">
+                    <h3 class="text-lg font-black text-emerald-400 uppercase">Ingeniería (Carro)</h3>
+                    <p class="text-[10px] text-slate-500">Diseño, Simulación y Manufactura</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                    
+                    <!-- Chasis (Reducido) -->
+                    <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800 border-t-2 border-t-emerald-500">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs font-black uppercase text-slate-300">Chasis</h4>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">3 PERS.</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">1</span> DISEÑO
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> MANUF.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transmisión (Subido) -->
+                    <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800 border-t-2 border-t-emerald-500">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs font-black uppercase text-slate-300">Transmisión</h4>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">4 PERS.</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> DISEÑO
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> MANUF.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Electrónica (Subido) -->
+                    <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800 border-t-2 border-t-emerald-500">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs font-black uppercase text-slate-300">Electrónica</h4>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">4 PERS.</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> DISEÑO
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> MANUF.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Potencia -->
+                    <div class="bg-slate-900/40 p-4 rounded-xl border border-slate-800 border-t-2 border-t-emerald-500">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs font-black uppercase text-slate-300">Potencia</h4>
+                            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">4 PERS.</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> DISEÑO
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded text-center border border-slate-800">
+                                <span class="block font-bold">2</span> MANUF.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen de Fuerza de Trabajo v2 -->
+        <div class="mt-20 bg-slate-900/50 p-10 rounded-[3rem] border border-slate-800 shadow-inner">
+            <div class="flex flex-wrap justify-around gap-8 text-center">
+                <div class="min-w-[120px]">
+                    <span class="text-5xl font-black text-white">21</span>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mt-2">Personal Total</p>
+                </div>
+                <div class="min-w-[120px]">
+                    <span class="text-5xl font-black text-blue-500">5</span>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mt-2">Área Logística</p>
+                </div>
+                <div class="min-w-[120px]">
+                    <span class="text-5xl font-black text-emerald-500">15</span>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mt-2">Área Ingeniería</p>
+                </div>
+                <div class="min-w-[120px]">
+                    <span class="text-5xl font-black text-amber-500">1</span>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase mt-2">Capitán</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-12 px-6 text-center border-t border-slate-900">
+        <p class="text-slate-600 text-[10px] font-mono tracking-widest uppercase">Estructura Estratégica FSAE // Optimización de Carga Técnica v2.0</p>
+    </footer>
+
+</body>
+</html>
